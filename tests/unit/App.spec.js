@@ -17,11 +17,22 @@ describe("App.vue", () => {
     expect(count.text()).toBe("0");
   });
 
-  it("should increment count when button is clicked", async () => {
+  it("should increment count and show '1' when button is clicked once", async () => {
     const wrapper = createWrapper();
     const btn = wrapper.get("#increment-btn");
     const beforeCount = wrapper.get("#count");
     expect(beforeCount.text()).toBe("0");
+    await btn.trigger("click");
+    const afterCount = wrapper.get("#count");
+    expect(afterCount.text()).toBe("1");
+  });
+
+  it("should increment count and show '2' when button is clicked twice", async () => {
+    const wrapper = createWrapper();
+    const btn = wrapper.get("#increment-btn");
+    const beforeCount = wrapper.get("#count");
+    expect(beforeCount.text()).toBe("0");
+    await btn.trigger("click");
     await btn.trigger("click");
     const afterCount = wrapper.get("#count");
     expect(afterCount.text()).toBe("2");
