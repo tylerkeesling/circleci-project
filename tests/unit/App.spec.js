@@ -24,6 +24,6 @@ describe("App.vue", () => {
     expect(beforeCount.text()).toBe("0");
     await btn.trigger("click");
     const afterCount = wrapper.get("#count");
-    expect(afterCount.text()).toBe("1");
+    expect(afterCount.text()).toBe("2");
   });
 });
