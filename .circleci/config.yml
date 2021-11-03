@@ -3,7 +3,7 @@ orbs:
   node: circleci/node@4.7
   heroku: circleci/heroku@1.2.6
 jobs:
-  test:
+  build:
     executor:
       name: node/default
       tag: "16.10"
@@ -14,12 +14,13 @@ jobs:
           name: Run Unit Tests
           command: npm run test:unit
 workflows:
-  run_tests:
+  build-and-deploy:
     jobs:
-      - test
-  deploy_heroku:
-      jobs:
-        - heroku/deploy-via-git:
-            api-key: HEROKU_API_KEY
-            app-name: babbling-brook
-            branch: develop
+      - build
+      - heroku/deploy-via-git:
+          requires:
+            - build
+          api-key: HEROKU_API_KEY
+          app-name: babbling-brook
+          branch: develop
+
