@@ -10,18 +10,18 @@ jobs:
     steps:
       - checkout
       - node/install-packages
-      - run:
-          name: Install JUnit Coverage Reporter
-          command: npm i -D jest-junit
-      - run:
-          name: Run Unit Tests with Coverage
-          command: npm run test:unit -- --ci --runInBand --reporters=default --reporters=jest-junit
-          environment:
-            JEST_JUNIT_OUTPUT_DIR: ./reports/junit/
-      - store_test_results:
-          path: ./reports/junit/
-      - store_artifacts:
-          path: ./reports/junit/
+      # - run:
+      #     name: Install JUnit Coverage Reporter
+      #     command: npm i -D jest-junit
+      # - run:
+      #     name: Run Unit Tests with Coverage
+      #     command: npm run test:unit -- --ci --runInBand --reporters=default --reporters=jest-junit
+      #     environment:
+      #       JEST_JUNIT_OUTPUT_DIR: ./reports/junit/
+      # - store_test_results:
+      #     path: ./reports/junit/
+      # - store_artifacts:
+      #     path: ./reports/junit/
 workflows:
   build-and-deploy:
     jobs:
