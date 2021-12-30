@@ -14,7 +14,7 @@ export default {
   name: "App",
   data() {
     return {
-      msg: "Click Me",
+      msg: "Click Me 2",
       count: 0,
     };
   },
