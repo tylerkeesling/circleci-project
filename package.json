@@ -11,6 +11,7 @@
     "test:coverage": "vue-cli-service test:unit --collectCoverage"
   },
   "dependencies": {
+    "@okta/okta-auth-js": "^4.9.2",
     "@okta/okta-vue": "^3.1.0",
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.6.5",

@@ -1,3 +1,5 @@
+import About from "@/views/About";
+import { LoginCallback } from "@okta/okta-vue";
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
@@ -10,14 +12,17 @@ const routes = [
     name: "Home",
     component: Home,
   },
+  { path: "/login/callback", component: LoginCallback },
   {
     path: "/about",
     name: "About",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+    component: About,
+    meta: {
+      requiresAuth: true,
+    },
   },
 ];
 
@@ -26,5 +31,7 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
+
+// router.beforeEach(Vue.$auth.authRedirectGuard());
 
 export default router;
