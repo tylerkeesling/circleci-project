@@ -1,7 +1,5 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-  </div>
+  <div>This is the home page</div>
 </template>
 
 <script>

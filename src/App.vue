@@ -1,8 +1,6 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
       <Navbar />
     </div>
     <router-view />
@@ -15,6 +13,27 @@ import Navbar from "@/components/Navbar";
 export default {
   components: {
     Navbar,
+  },
+  created() {
+    this.isAuthenticated();
+    this.getUser();
+  },
+  data() {
+    return {
+      authenticated: false,
+      user: {},
+    };
+  },
+  watch: {
+    $route: "isAuthenticated",
+  },
+  methods: {
+    async isAuthenticated() {
+      this.authenticated = await this.$auth.isAuthenticated();
+    },
+    async getUser() {
+      this.user = await this.$auth.getUser();
+    },
   },
 };
 </script>
@@ -29,7 +48,7 @@ export default {
 }
 
 #nav {
-  padding: 30px;
+  padding-bottom: 30px;
 }
 
 #nav a {
