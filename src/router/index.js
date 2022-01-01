@@ -1,30 +1,35 @@
-import About from "@/views/About";
-import Admin from "@/views/Admin";
-import Home from "@/views/Home";
-import { LoginCallback } from "@okta/okta-vue";
-import Vue from "vue";
-import VueRouter from "vue-router";
+import About from '@/views/About';
+import Admin from '@/views/Admin';
+import Home from '@/views/Home';
+import Login from '@/views/Login';
+import { LoginCallback } from '@okta/okta-vue';
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
-    name: "Home",
+    path: '/',
     component: Home,
   },
-  { path: "/login/callback", component: LoginCallback },
   {
-    path: "/about",
-    name: "About",
+    path: '/login',
+    component: Login,
+  },
+  {
+    path: '/login/callback',
+    component: LoginCallback,
+  },
+  {
+    path: '/about',
     component: About,
     meta: {
       requiresAuth: true,
     },
   },
   {
-    path: "/admin",
-    name: "Admin",
+    path: '/admin',
     component: Admin,
     meta: {
       requiresAuth: true,
@@ -33,8 +38,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
+  mode: 'history',
   routes,
 });
 

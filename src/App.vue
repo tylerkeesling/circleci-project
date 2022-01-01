@@ -8,32 +8,11 @@
 </template>
 
 <script>
-import Navbar from "@/components/Navbar";
+import Navbar from '@/components/Navbar';
 
 export default {
   components: {
     Navbar,
-  },
-  created() {
-    this.isAuthenticated();
-    this.getUser();
-  },
-  data() {
-    return {
-      authenticated: false,
-      user: {},
-    };
-  },
-  watch: {
-    $route: "isAuthenticated",
-  },
-  methods: {
-    async isAuthenticated() {
-      this.authenticated = await this.$auth.isAuthenticated();
-    },
-    async getUser() {
-      this.user = await this.$auth.getUser();
-    },
   },
 };
 </script>
