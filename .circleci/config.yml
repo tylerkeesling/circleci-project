@@ -6,7 +6,7 @@ jobs:
   build:
     executor:
       name: node/default
-      tag: "16.10"
+      tag: '16.10'
     steps:
       - checkout
       - node/install-packages
