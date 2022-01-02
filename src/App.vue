@@ -9,7 +9,7 @@
 
 <script>
 import Navbar from '@/components/Navbar';
-
+// hello
 export default {
   components: {
     Navbar,
