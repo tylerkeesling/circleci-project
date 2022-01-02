@@ -8,12 +8,14 @@
       <b-tab @click="onAllAdmins" title="Admins">
         <b-table striped hover :items="userTable">
           <template #cell(id)="data">
-            <button
+            <b-button
+              variant="danger"
+              size="sm"
               :disabled="data.value === authState.accessToken.claims.uid"
               @click="onRemoveAdmin(data.value)"
             >
-              {{ data.value }}
-            </button>
+              <b-icon icon="x-circle" aria-hidden="true"></b-icon> Remove
+            </b-button>
           </template>
         </b-table>
       </b-tab>
@@ -21,9 +23,14 @@
       <b-tab @click="onNonAdmins" title="Regulars">
         <b-table striped hover :items="userTable">
           <template #cell(id)="data">
-            <button @click="onAddAdmin(data.value)">
-              {{ data.value }}
-            </button>
+            <b-button
+              variant="success"
+              size="sm"
+              :disabled="data.value === authState.accessToken.claims.uid"
+              @click="onAddAdmin(data.value)"
+            >
+              <b-icon icon="check-circle" aria-hidden="true"></b-icon> Add
+            </b-button>
           </template>
         </b-table>
       </b-tab>
@@ -32,12 +39,8 @@
 </template>
 
 <script>
-// import httpHandler from '@/services/httpHandler';
-import { getUsers, getAdmins, getNonAdmins } from '@/services/userService';
+import userService from '@/services/userService';
 import groupService from '@/services/groupService';
-// import axios from 'axios';
-
-// const ADMIN_GROUP_ID = '00g3grzlxtmFbkIzZ5d7';
 
 export default {
   data() {
@@ -53,10 +56,10 @@ export default {
       if (!this.users) return [];
       return this.users.map((user) => {
         return {
-          id: user.id,
           first_name: user.profile.firstName,
           last_name: user.profile.lastName,
           email: user.profile.email,
+          id: user.id,
         };
       });
     },
@@ -68,26 +71,26 @@ export default {
     },
     async onAllAdmins() {
       this.users = [];
-      const admins = await getAdmins();
+      const admins = await userService.getAdmins();
       this.users = admins.data;
     },
     async onNonAdmins() {
       this.users = [];
-      const users = await getNonAdmins();
+      const users = await userService.getNonAdmins();
       this.users = users.data;
     },
     async getUsers() {
-      const users = await getUsers();
+      const users = await userService.getUsers();
       this.users = users.data;
     },
     async onAddAdmin(userId) {
       await groupService.addUser(userId);
-      const users = await getNonAdmins();
+      const users = await userService.getNonAdmins();
       this.users = users.data;
     },
     async onRemoveAdmin(userId) {
       await groupService.deleteUser(userId);
-      const admins = await getAdmins();
+      const admins = await userService.getAdmins();
       this.users = admins.data;
     },
   },
