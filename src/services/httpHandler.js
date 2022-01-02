@@ -5,7 +5,7 @@ const APPLICATION_JSON = 'application/json';
 
 const defaultOptions = {
   baseURL: `${process.env.VUE_APP_RESOURCE_SERVER}`,
-  timeout: 1000,
+  timeout: 10000,
   headers: {
     Accept: APPLICATION_JSON,
     'Content-Type': APPLICATION_JSON,
