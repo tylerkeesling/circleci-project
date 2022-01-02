@@ -1,13 +1,23 @@
 import axios from 'axios';
+import ls from 'local-storage';
 
-const instance = axios.create({
-  baseURL: `https://${process.env.VUE_APP_OKTA_DOMAIN}`,
+const APPLICATION_JSON = 'application/json';
+
+const defaultOptions = {
+  baseURL: `${process.env.VUE_APP_RESOURCE_SERVER}`,
   timeout: 1000,
   headers: {
-    Authorization: `SSWS ${process.env.VUE_APP_OKTA_API_KEY}`,
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
+    Accept: APPLICATION_JSON,
+    'Content-Type': APPLICATION_JSON,
   },
+};
+
+const instance = axios.create(defaultOptions);
+
+instance.interceptors.request.use((config) => {
+  const token = ls.get('okta-token-storage')?.accessToken?.accessToken;
+  config.headers.Authorization = token ? `Bearer ${token}` : '';
+  return config;
 });
 
 export default instance;

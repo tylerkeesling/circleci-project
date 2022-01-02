@@ -20,6 +20,6 @@ export default {
     // },
   },
   resourceServer: {
-    messagesUrl: 'http://localhost:8000/api/messages',
+    messagesUrl: 'http://localhost:8000/api',
   },
 };
