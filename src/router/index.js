@@ -16,6 +16,14 @@ const routes = [
   {
     path: '/login',
     component: Login,
+    beforeEnter: (to, from, next) => {
+      const idToken = localStorage.getItem('okta-token-storage');
+      if (idToken) {
+        next({ path: '/' });
+      } else {
+        next();
+      }
+    },
   },
   {
     path: '/login/callback',
@@ -33,6 +41,7 @@ const routes = [
     component: Admin,
     meta: {
       requiresAuth: true,
+      requiresAdmin: true,
     },
   },
 ];
@@ -42,6 +51,11 @@ const router = new VueRouter({
   routes,
 });
 
-// router.beforeEach(Vue.$auth.authRedirectGuard());
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some((record) => record.meta.requiresAdmin)) {
+//     console.log('record', oktaAuth);
+//   }
+//   next();
+// });
 
 export default router;

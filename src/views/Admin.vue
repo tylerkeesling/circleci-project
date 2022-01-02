@@ -64,6 +64,15 @@ export default {
       });
     },
   },
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      if (vm.authState.isAdmin) {
+        next();
+      } else {
+        next({ path: '/' });
+      }
+    });
+  },
   methods: {
     async onAllUsers() {
       this.users = [];

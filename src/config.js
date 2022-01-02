@@ -14,10 +14,17 @@ export default {
     redirectUri,
     scopes: ['openid', 'profile', 'email', 'groups'],
     pkce: true,
-    // useInteractionCodeFlow: USE_INTERACTION_CODE_FLOW,
-    // testing: {
-    //   disableHttpsCheck: OKTA_TESTING_DISABLEHTTPSCHECK,
-    // },
+    transformAuthState: async (oktaAuth, authState) => {
+      if (!authState.isAuthenticated) {
+        return authState;
+      }
+      // extra requirement: user must have valid Okta SSO session
+      const user = await oktaAuth.token.getUserInfo();
+      authState.isAuthenticated = !!user; // convert to boolean
+      authState.me = user; // also store user object on authState
+      authState.isAdmin = user?.groups?.length > 0;
+      return authState;
+    },
   },
   resourceServer: {
     messagesUrl: 'http://localhost:8000/api',

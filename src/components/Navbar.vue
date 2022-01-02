@@ -11,7 +11,7 @@
         <b-navbar-nav v-if="authState.isAuthenticated">
           <b-nav-item to="/">Home</b-nav-item>
           <b-nav-item to="about">About</b-nav-item>
-          <b-nav-item v-if="isadmin" to="admin">Admin</b-nav-item>
+          <b-nav-item v-if="iAmAdmin" to="admin">Admin</b-nav-item>
         </b-navbar-nav>
 
         <!-- user is logged in -->
@@ -19,7 +19,7 @@
           <b-nav-item-dropdown right>
             <!-- Using 'button-content' slot -->
             <template #button-content>
-              <em>{{ username }}</em>
+              <em>{{ authState.me.name }}</em>
             </template>
             <b-dropdown-item href="#">Profile</b-dropdown-item>
             <b-dropdown-item @click="onSignOut">Sign Out</b-dropdown-item>
@@ -37,22 +37,10 @@
 
 <script>
 export default {
-  data() {
-    return {
-      name: '',
-      isadmin: false,
-    };
-  },
   computed: {
-    username() {
-      return this.name;
+    iAmAdmin() {
+      return this.authState.me?.groups?.length > 0;
     },
-    admin() {
-      return this.isadmin;
-    },
-  },
-  created() {
-    this.isAdmin();
   },
   methods: {
     async onSignOut() {
@@ -63,12 +51,6 @@ export default {
     },
     onSignUp() {
       console.log('onSignUp clicked');
-    },
-    async isAdmin() {
-      const { groups = [], name } = await this.$auth.token.getUserInfo();
-      this.name = name;
-
-      this.isadmin = groups.length > 0;
     },
   },
 };
