@@ -25,10 +25,10 @@ jobs:
 workflows:
   build-and-deploy:
     jobs:
-      - build
+      # - build
       - heroku/deploy-via-git:
-          requires:
-            - build
+          # requires:
+          # - build
           api-key: HEROKU_API_KEY
           app-name: babbling-brook
           branch: develop
