@@ -11,7 +11,7 @@
         <b-navbar-nav v-if="authState.isAuthenticated">
           <b-nav-item to="/">Home</b-nav-item>
           <b-nav-item to="about">About</b-nav-item>
-          <b-nav-item v-if="iAmAdmin" to="admin">Admin</b-nav-item>
+          <b-nav-item v-if="authState.isAdmin" to="admin">Admin</b-nav-item>
         </b-navbar-nav>
 
         <!-- user is logged in -->
@@ -37,11 +37,6 @@
 
 <script>
 export default {
-  computed: {
-    iAmAdmin() {
-      return this.authState.me?.groups?.length > 0;
-    },
-  },
   methods: {
     async onSignOut() {
       await this.$auth.signOut();

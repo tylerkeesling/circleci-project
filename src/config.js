@@ -23,7 +23,7 @@ export default {
       const user = await oktaAuth.token.getUserInfo();
       authState.isAuthenticated = !!user; // convert to boolean
       authState.me = user; // also store user object on authState
-      authState.isAdmin = user?.groups?.length > 0;
+      authState.isAdmin = user['is_admin_user'];
       return authState;
     },
   },
