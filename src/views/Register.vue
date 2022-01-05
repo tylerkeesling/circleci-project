@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import UserService from '@/services/UserService';
+import users from '../services/UsersService';
 
 export default {
   data() {
@@ -87,7 +87,7 @@ export default {
     async onSubmit(evt) {
       try {
         console.log(this.$auth);
-        await UserService.register(this.form);
+        await users.register(this.form);
         const user = await this.$auth.signInWithCredentials({
           username: this.form.email,
           password: this.form.password,
