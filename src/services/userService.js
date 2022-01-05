@@ -21,6 +21,19 @@ class UserService {
     return users;
   }
 
+  async register(registrationForm) {
+    const { firstName, lastName, email, password } = registrationForm;
+
+    const res = await client.post('/users', {
+      firstName,
+      lastName,
+      email,
+      password,
+    });
+
+    return res;
+  }
+
   async getAdmins() {
     const users = await client.get('/users/admins');
     return users;
@@ -31,5 +44,4 @@ class UserService {
   }
 }
 
-const userService = new UserService();
-export default userService;
+export default new UserService();

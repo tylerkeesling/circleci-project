@@ -12,7 +12,8 @@ export default {
     clientId,
     issuer,
     redirectUri,
-    scopes: ['openid', 'profile', 'email', 'groups'],
+    features: { registration: true },
+    scopes: ['openid', 'profile', 'email', 'admin', 'posts'],
     pkce: true,
     transformAuthState: async (oktaAuth, authState) => {
       if (!authState.isAuthenticated) {

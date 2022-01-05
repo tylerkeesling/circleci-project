@@ -2,6 +2,7 @@ import About from '@/views/About';
 import Admin from '@/views/Admin';
 import Home from '@/views/Home';
 import Login from '@/views/Login';
+import Register from '@/views/Register';
 import { LoginCallback } from '@okta/okta-vue';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
@@ -16,14 +17,18 @@ const routes = [
   {
     path: '/login',
     component: Login,
-    beforeEnter: (to, from, next) => {
-      const idToken = localStorage.getItem('okta-token-storage');
-      if (idToken) {
-        next({ path: '/' });
-      } else {
-        next();
-      }
-    },
+    // beforeEnter: (to, from, next) => {
+    //   const idToken = localStorage.getItem('okta-token-storage');
+    //   if (idToken) {
+    //     next({ path: '/' });
+    //   } else {
+    //     next();
+    //   }
+    // },
+  },
+  {
+    path: '/register',
+    component: Register,
   },
   {
     path: '/login/callback',

@@ -28,7 +28,7 @@
         <!-- user is not logged in -->
         <b-navbar-nav v-if="!authState.isAuthenticated" class="ml-auto">
           <b-nav-item to="/login">Log in</b-nav-item>
-          <b-nav-item @click="onSignUp">Sign Up</b-nav-item>
+          <b-nav-item to="/register">Register</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -48,9 +48,6 @@ export default {
     },
     onLogIn() {
       this.$auth.signInWithRedirect({ originalUri: '/about' });
-    },
-    onSignUp() {
-      console.log('onSignUp clicked');
     },
   },
 };

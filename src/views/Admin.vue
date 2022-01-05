@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import userService from '@/services/userService';
+import UserService from '@/services/UserService';
 import groupService from '@/services/groupService';
 
 export default {
@@ -64,15 +64,15 @@ export default {
       });
     },
   },
-  beforeRouteEnter(to, from, next) {
-    next((vm) => {
-      if (vm.authState.isAdmin) {
-        next();
-      } else {
-        next({ path: '/' });
-      }
-    });
-  },
+  // beforeRouteEnter(to, from, next) {
+  //   next((vm) => {
+  //     if (vm.authState.isAdmin) {
+  //       next();
+  //     } else {
+  //       next({ path: '/' });
+  //     }
+  //   });
+  // },
   methods: {
     async onAllUsers() {
       this.users = [];
@@ -80,26 +80,26 @@ export default {
     },
     async onAllAdmins() {
       this.users = [];
-      const admins = await userService.getAdmins();
+      const admins = await UserService.getAdmins();
       this.users = admins.data;
     },
     async onNonAdmins() {
       this.users = [];
-      const users = await userService.getNonAdmins();
+      const users = await UserService.getNonAdmins();
       this.users = users.data;
     },
     async getUsers() {
-      const users = await userService.getUsers();
+      const users = await UserService.getUsers();
       this.users = users.data;
     },
     async onAddAdmin(userId) {
       await groupService.addUser(userId);
-      const users = await userService.getNonAdmins();
+      const users = await UserService.getNonAdmins();
       this.users = users.data;
     },
     async onRemoveAdmin(userId) {
       await groupService.deleteUser(userId);
-      const admins = await userService.getAdmins();
+      const admins = await UserService.getAdmins();
       this.users = admins.data;
     },
   },
