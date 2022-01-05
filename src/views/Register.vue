@@ -81,6 +81,7 @@ export default {
         password: 'AnythingYouWant123',
       },
       show: true,
+      dontShow: false,
     };
   },
   methods: {
