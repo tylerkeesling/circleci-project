@@ -39,8 +39,8 @@
 </template>
 
 <script>
-import UserService from '@/services/UserService';
 import groupService from '@/services/groupService';
+import UserService from '@/services/UserService.js';
 
 export default {
   data() {
