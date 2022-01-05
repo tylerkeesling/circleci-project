@@ -40,7 +40,7 @@
 
 <script>
 import groupService from '@/services/groupService';
-import users from '../services/UsersService';
+import UserService from '../services/UsersService';
 
 export default {
   data() {
@@ -80,26 +80,31 @@ export default {
     },
     async onAllAdmins() {
       this.users = [];
-      const admins = await users.getAdmins();
+      const admins = await UserService.getAdmins();
       this.users = admins.data;
     },
     async onNonAdmins() {
       this.users = [];
-      const users = await users.getNonAdmins();
-      this.users = users.data;
+      try {
+        console.log();
+        const users = await UserService.getAdmins();
+        this.users = users.data;
+      } catch (error) {
+        console.log(error);
+      }
     },
     async getUsers() {
-      const users = await users.getUsers();
+      const users = await UserService.getUsers();
       this.users = users.data;
     },
     async onAddAdmin(userId) {
       await groupService.addUser(userId);
-      const users = await users.getNonAdmins();
+      const users = await UserService.getNonAdmins();
       this.users = users.data;
     },
     async onRemoveAdmin(userId) {
       await groupService.deleteUser(userId);
-      const admins = await users.getAdmins();
+      const admins = await UserService.getAdmins();
       this.users = admins.data;
     },
   },
