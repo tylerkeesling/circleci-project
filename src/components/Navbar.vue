@@ -10,8 +10,10 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav v-if="authState.isAuthenticated">
           <b-nav-item to="/">Home</b-nav-item>
-          <b-nav-item to="about">About</b-nav-item>
-          <b-nav-item v-if="authState.isAdmin" to="admin">Admin</b-nav-item>
+          <b-nav-item to="/blog">Blog</b-nav-item>
+          <b-nav-item v-if="authState.isAdmin" to="/admin">
+            Admins Only
+          </b-nav-item>
         </b-navbar-nav>
 
         <!-- user is logged in -->
@@ -25,6 +27,7 @@
             <b-dropdown-item @click="onSignOut">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
+
         <!-- user is not logged in -->
         <b-navbar-nav v-if="!authState.isAuthenticated" class="ml-auto">
           <b-nav-item to="/login">Log in</b-nav-item>
@@ -42,7 +45,7 @@ export default {
       await this.$auth.signOut();
     },
     onLogIn() {
-      this.$auth.signInWithRedirect({ originalUri: '/about' });
+      this.$auth.signInWithRedirect({ originalUri: '/blog' });
     },
   },
 };

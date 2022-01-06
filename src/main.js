@@ -5,6 +5,8 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import Vue from 'vue';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 import App from './App.vue';
 import router from './router';
 
@@ -17,6 +19,7 @@ Vue.use(OktaVue, {
 });
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
+Vue.use(Loading);
 
 new Vue({
   router,

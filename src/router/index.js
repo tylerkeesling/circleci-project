@@ -1,5 +1,5 @@
-import About from '@/views/About';
 import Admin from '@/views/Admin';
+import Blog from '@/views/Blog';
 import Home from '@/views/Home';
 import Login from '@/views/Login';
 import Register from '@/views/Register';
@@ -35,8 +35,8 @@ const routes = [
     component: LoginCallback,
   },
   {
-    path: '/about',
-    component: About,
+    path: '/blog',
+    component: Blog,
     meta: {
       requiresAuth: true,
     },
