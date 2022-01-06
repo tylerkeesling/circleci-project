@@ -2,35 +2,23 @@
   <b-container>
     <b-tabs pills content-class="mt-3">
       <b-tab @click="onAllUsers" title="All Users" active>
-        <b-table striped hover :items="userTable"></b-table>
-      </b-tab>
-
-      <b-tab @click="onAllAdmins" title="Admins">
         <b-table striped hover :items="userTable">
-          <template #cell(id)="data">
-            <b-button
-              variant="danger"
-              size="sm"
-              :disabled="data.value === authState.accessToken.claims.uid"
-              @click="onRemoveAdmin(data.value)"
-            >
-              <b-icon icon="x-circle" aria-hidden="true"></b-icon> Remove
-            </b-button>
-          </template>
-        </b-table>
-      </b-tab>
-
-      <b-tab @click="onNonAdmins" title="Regulars">
-        <b-table striped hover :items="userTable">
-          <template #cell(id)="data">
-            <b-button
+          <template #cell(user_type)="data">
+            <b-dropdown
+              id="user-type-dropdown"
+              :text="data.item.user_type"
+              class="w-75 m-2"
               variant="success"
-              size="sm"
-              :disabled="data.value === authState.accessToken.claims.uid"
-              @click="onAddAdmin(data.value)"
+              :disabled="authState.me.sub === data.item.id"
             >
-              <b-icon icon="check-circle" aria-hidden="true"></b-icon> Add
-            </b-button>
+              <b-dropdown-item-button
+                @click="onEditUser(data.item.id, role)"
+                v-for="role in roles"
+                :key="role"
+              >
+                {{ role }}
+              </b-dropdown-item-button>
+            </b-dropdown>
           </template>
         </b-table>
       </b-tab>
@@ -42,10 +30,17 @@
 import groupService from '@/services/groupService';
 import UserService from '../services/UsersService';
 
+const ROLES = {
+  ROLE_ADMIN: 'Admin',
+  ROLE_EDITOR: 'Editor',
+  ROLE_BASE: 'User',
+};
+
 export default {
   data() {
     return {
       users: null,
+      roles: ROLES,
     };
   },
   async created() {
@@ -56,10 +51,14 @@ export default {
       if (!this.users) return [];
       return this.users.map((user) => {
         return {
-          first_name: user.profile.firstName,
-          last_name: user.profile.lastName,
-          email: user.profile.email,
           id: user.id,
+          first_name: user.profile.given_name || user.profile.firstName,
+          last_name: user.profile.family_name || user.profile.lastName,
+          email: user.profile.email,
+          user_type:
+            ROLES[user.profile.userRole] ||
+            ROLES[user.profile.role] ||
+            ROLES.ROLE_BASE,
         };
       });
     },
@@ -74,6 +73,17 @@ export default {
   //   });
   // },
   methods: {
+    async onEditUser(userId, role) {
+      const roleKey = Object.keys(this.roles).find(
+        (key) => this.roles[key] === role
+      );
+      const updatedUser = await UserService.update(userId, { role: roleKey });
+      this.users.find((user, idx) => {
+        if (user.id === updatedUser.data.id) {
+          this.$set(this.users, idx, updatedUser.data);
+        }
+      });
+    },
     async onAllUsers() {
       this.users = [];
       await this.getUsers();

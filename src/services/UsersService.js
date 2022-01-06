@@ -6,6 +6,18 @@ class UsersService {
     return users;
   }
 
+  async update(userId, attributes) {
+    const updates = {
+      profile: {
+        role: attributes.role,
+      },
+    };
+
+    const res = await client.put(`/users/${userId}`, updates);
+
+    return res;
+  }
+
   async register(registrationForm) {
     const { firstName, lastName, email, password } = registrationForm;
 
