@@ -31,13 +31,10 @@ class UsersService {
     return res;
   }
 
-  async getAdmins() {
-    const users = await client.get('/users/admins');
-    return users;
-  }
-  async getNonAdmins() {
-    const users = await client.get('/users/non-admins');
-    return users;
+  async listFactorsToEnroll(userId) {
+    const res = await client.post(`/users/${userId}/factors/catalog`);
+
+    return res;
   }
 }
 

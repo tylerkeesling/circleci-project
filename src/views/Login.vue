@@ -37,6 +37,22 @@
           ></b-form-input>
         </b-form-group>
 
+        <b-form-group
+          id="form-passcode-group"
+          label="Passcode:"
+          label-for="passcode"
+          label-cols-sm="3"
+          label-align-sm="right"
+        >
+          <b-form-input
+            v-model="passcode"
+            id="passcode"
+            placeholder="Enter your passcode"
+            required
+            trim
+          ></b-form-input>
+        </b-form-group>
+
         <b-button class="float-right" type="submit" variant="primary">
           Login
         </b-button>
@@ -63,28 +79,38 @@ export default {
         email: '',
         password: '',
       },
+      passcode: '',
     };
   },
   mounted() {},
   methods: {
     async onLogin() {
       try {
-        console.log(this.$auth);
-        const user = await this.$auth.signInWithCredentials({
-          username: this.credentials.email,
-          password: this.credentials.password,
-        });
-
-        const getWithoutPrompt = await this.$auth.token.getWithoutPrompt({
-          responseType: ['id_token', 'access_token'],
-          sessionToken: user.data.sessionToken,
-        });
-
-        console.log('getWithoutPrompt', getWithoutPrompt);
-
-        // await this.$auth.tokenManager.setTokens(getWithoutPrompt.tokens);
-
-        await this.$auth.handleLoginRedirect(getWithoutPrompt.tokens);
+        this.$auth
+          .signInWithCredentials({
+            username: this.credentials.email,
+            password: this.credentials.password,
+          })
+          .then((transaction) => {
+            if (transaction.status === 'MFA_REQUIRED') {
+              const factor = transaction.factors.find((factor) => {
+                return (
+                  factor.provider === 'OKTA' &&
+                  factor.factorType === 'token:software:totp'
+                );
+              });
+              factor.verify({ passCode: this.passcode }).then((res) => {
+                this.$auth.token
+                  .getWithoutPrompt({ sessionToken: res.sessionToken })
+                  .then((res) => {
+                    this.$auth.handleLoginRedirect(
+                      res.tokens,
+                      window.location.origin + 'login/callback'
+                    );
+                  });
+              });
+            }
+          });
       } catch (error) {
         console.log('THIS IS MY ERROR', error);
       }
