@@ -2,6 +2,7 @@
   <b-container>
     <template v-if="!error">
       <h1 class="mb-10">Welcome to the blog</h1>
+      <b-button @click="$router.push('/blog/new')">Create a post</b-button>
       <template v-for="post in posts">
         <blog-post class="mt-3" :key="post.id" :post="post"></blog-post>
       </template>

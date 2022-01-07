@@ -8,7 +8,6 @@ class PostsService {
       throw new Error('You are not authorized too see my blog.');
     }
 
-    console.log(code);
     return posts;
   }
 
@@ -24,7 +23,11 @@ class PostsService {
       throw new Error('You are not authorized to create blog posts.');
     }
 
-    return { status };
+    if (code === 500) {
+      throw new Error('Something went wrong...');
+    }
+
+    return status === 201;
   }
 }
 

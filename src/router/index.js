@@ -1,5 +1,6 @@
 import Admin from '@/views/Admin';
 import Blog from '@/views/Blog';
+import CreatePost from '@/views/CreatePost';
 import Home from '@/views/Home';
 import Login from '@/views/Login';
 import Register from '@/views/Register';
@@ -41,6 +42,14 @@ const routes = [
       requiresAuth: true,
     },
   },
+  {
+    path: '/blog/new',
+    component: CreatePost,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+
   {
     path: '/admin',
     component: Admin,
