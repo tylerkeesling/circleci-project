@@ -20,6 +20,7 @@
                 label-cols-sm="3"
                 label-align-sm="right"
                 required
+                autocomplete="off"
               ></b-form-input>
             </b-form-group>
 
@@ -35,6 +36,7 @@
                 v-model="form.lastName"
                 placeholder="Your last name"
                 required
+                autocomplete="off"
               ></b-form-input>
             </b-form-group>
 
@@ -51,6 +53,7 @@
                 type="email"
                 placeholder="Your email address"
                 required
+                autocomplete="off"
               ></b-form-input>
             </b-form-group>
 
@@ -69,6 +72,7 @@
                 label-cols-sm="3"
                 label-align-sm="right"
                 required
+                autocomplete="off"
               ></b-form-input>
             </b-form-group>
 
@@ -79,11 +83,11 @@
         </b-card>
       </template>
       <template #back>
-        we are in here
-        <b-img :src="qrcode" />
+        <b-card title="Please scan the QR code with Okta Verify">
+          <b-img :src="qrcode" />
+        </b-card>
       </template>
     </flip-card>
-    <b-button @click="flipped = !flipped">Flip</b-button>
   </b-container>
 </template>
 
@@ -98,13 +102,14 @@ export default {
   data() {
     return {
       form: {
-        firstName: 'Adam',
-        lastName: 'W',
-        email: 'adam@mailinator.com',
-        password: 'Sil3nc3r!',
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
       },
-      flipped: false,
-      qrcode: null,
+      flipped: true,
+      qrcode:
+        'https://dev-76476905.okta.com/api/v1/users/00u3jk50nzyKXK1F45d7/factors/opf3jk45h7BrV0fq55d7/qr/20111TlU0jdGqELTWkk8slgsyEKiJbsz0InOoqkhIyPbhcnEdz5FA5S',
       show: true,
       dontShow: false,
     };

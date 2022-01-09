@@ -3,16 +3,26 @@
     <div id="nav">
       <Navbar />
     </div>
+    <div class="float-right mr-4">{{ roleDisplay }}</div>
     <router-view />
   </div>
 </template>
 
 <script>
 import Navbar from '@/components/Navbar';
-// hello
+
 export default {
   components: {
     Navbar,
+  },
+  computed: {
+    roleDisplay() {
+      if (this.authState.isAuthenticated) {
+        return this.authState.me.user_role;
+      }
+
+      return '';
+    },
   },
 };
 </script>

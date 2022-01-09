@@ -66,6 +66,9 @@
         </b-form>
       </b-card>
     </b-overlay>
+    <div class="mt-3" v-if="error">
+      <h4>You are forbidden from create blog posts.</h4>
+    </div>
   </b-container>
 </template>
 

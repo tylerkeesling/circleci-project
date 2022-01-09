@@ -54,6 +54,9 @@
         </template>
       </b-card>
     </b-overlay>
+    <h4 class="mt-3" v-if="waitingForVerification">
+      We've sent you a push notification.
+    </h4>
   </b-container>
 </template>
 
