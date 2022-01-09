@@ -107,9 +107,8 @@ export default {
         email: '',
         password: '',
       },
-      flipped: true,
-      qrcode:
-        'https://dev-76476905.okta.com/api/v1/users/00u3jk50nzyKXK1F45d7/factors/opf3jk45h7BrV0fq55d7/qr/20111TlU0jdGqELTWkk8slgsyEKiJbsz0InOoqkhIyPbhcnEdz5FA5S',
+      flipped: false,
+      qrcode: null,
       show: true,
       dontShow: false,
     };
