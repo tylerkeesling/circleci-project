@@ -76,11 +76,14 @@ export default {
   methods: {
     async onLogin() {
       try {
+        this.showError = false;
         this.waitingForVerification = true;
         const transaction = await this.$auth.signInWithCredentials({
           username: this.credentials.email,
           password: this.credentials.password,
         });
+
+        console.log(transaction.status);
 
         if (transaction.status === 'MFA_REQUIRED') {
           const factor = transaction.factors.find((factor) => {
@@ -125,7 +128,7 @@ export default {
       } catch (error) {
         this.waitingForVerification = false;
         this.showError = true;
-        console.log('THIS IS MY ERROR', error);
+        console.log('Error:', error);
       }
     },
   },
