@@ -54,9 +54,8 @@
         </template>
       </b-card>
     </b-overlay>
-    <h4 class="mt-3" v-if="waitingForVerification">
-      We've sent you a push notification.
-    </h4>
+    <h4 class="mt-3" v-if="showMessage">We've sent you a push notification.</h4>
+    <h4 class="mt-3" v-if="showError">An error has occured.</h4>
   </b-container>
 </template>
 
@@ -68,6 +67,8 @@ export default {
         email: '',
         password: '',
       },
+      showMessage: false,
+      showError: false,
       waitingForVerification: false,
     };
   },
@@ -75,6 +76,7 @@ export default {
   methods: {
     async onLogin() {
       try {
+        this.waitingForVerification = true;
         const transaction = await this.$auth.signInWithCredentials({
           username: this.credentials.email,
           password: this.credentials.password,
@@ -87,7 +89,7 @@ export default {
 
           const verified = await factor.verify({ autoPush: true });
 
-          this.waitingForVerification = true;
+          this.showMessage = true;
 
           const x = await verified.poll();
 
@@ -109,8 +111,20 @@ export default {
             tokens.tokens,
             window.location.origin + 'login/callback'
           );
+        } else if (transaction.status === 'SUCCESS') {
+          const tokens = await this.$auth.token.getWithoutPrompt({
+            responseType: ['id_token', 'access_token'],
+            sessionToken: transaction.data.sessionToken,
+          });
+
+          this.$auth.handleLoginRedirect(
+            tokens.tokens,
+            window.location.origin + 'login/callback'
+          );
         }
       } catch (error) {
+        this.waitingForVerification = false;
+        this.showError = true;
         console.log('THIS IS MY ERROR', error);
       }
     },
